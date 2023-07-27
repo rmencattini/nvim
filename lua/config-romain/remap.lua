@@ -15,3 +15,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- Move selected up/down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "<leader>x", ":bd <CR>")
+vim.keymap.set("n", "<leader>n", ":bn <CR>")
+vim.keymap.set("n", "<leader>b", ":bp <CR>")
+
+vim.keymap.set("n", "<Tab>", ">>")
+vim.keymap.set("n", "<S-Tab>", "<<")

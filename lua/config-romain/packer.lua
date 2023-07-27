@@ -51,10 +51,15 @@ return require('packer').startup(function(use)
     -- Status bar
     use {
         'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+        requires = { 'nvim-tree/nvim-web-devicons' }
     }
 
     -- Tree file
     use { 'nvim-tree/nvim-tree.lua' }
+
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
 
 end)
