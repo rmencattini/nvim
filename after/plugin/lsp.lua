@@ -10,7 +10,8 @@ end)
 lsp.ensure_installed({
     'rust_analyzer',
     'lua_ls',
-    'jdtls'
+    'jdtls',
+    'gradle_ls',
 })
 
 -- Set the completion shortcut + go back
@@ -71,6 +72,7 @@ require('lspconfig').rust_analyzer.setup({
         }
     }
 })
+require('lspconfig').gradle_ls.setup({})
 require('lsp-zero').skip_server_setup({'jdtls'})
 
 lsp.setup()
