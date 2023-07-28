@@ -1,3 +1,8 @@
+--[[ The real heros => u/b3zi   github.com/b3z
+reddit link => https://www.reddit.com/r/neovim/comments/zrgufk/trying_to_add_lombok_to_jdtls_failing_terribly/
+github link => https://github.com/b3z/nvimConfig/blob/master/lua/user/lsp/settings/jdtls.lua
+lsp-zero kudos => https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/guides/setup-with-nvim-jdtls.md ]]
+
 local home = os.getenv("HOME")
 if vim.fn.has("mac") == 1 then
     WORKSPACE_PATH = home .. "/workspace/"
