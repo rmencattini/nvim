@@ -27,6 +27,8 @@ return require('packer').startup(function(use)
 		end
 	}
 
+    use "mfussenegger/nvim-jdtls"
+
     -- Sets of plugin for lsp
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -57,9 +59,6 @@ return require('packer').startup(function(use)
     -- Tree file
     use { 'nvim-tree/nvim-tree.lua' }
 
-    use {
-        "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
-    }
+    use { 'windwp/nvim-autopairs' }
 
 end)

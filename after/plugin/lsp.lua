@@ -9,7 +9,8 @@ end)
 
 lsp.ensure_installed({
     'rust_analyzer',
-    'lua_ls'
+    'lua_ls',
+    'jdtls'
 })
 
 -- Set the completion shortcut + go back
@@ -40,5 +41,6 @@ require('lspconfig').rust_analyzer.setup({
         }
     }
 })
+require('lsp-zero').skip_server_setup({'jdtls'})
 
 lsp.setup()
