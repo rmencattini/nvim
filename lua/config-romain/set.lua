@@ -26,6 +26,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.api.nvim_create_autocmd(
-{"BufRead", "BufNewFile"},
-{pattern = "*.handlebars", command = "set filetype=html"}
+    {"BufRead", "BufNewFile"},
+    {pattern = "*.handlebars", command = "set filetype=html"}
 )

@@ -10,9 +10,17 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 local telescope = require('telescope')
 telescope.setup({
+    defaults = {
+        layout_strategy = "vertical",
+        layout_config = {
+            vertical = {
+                width = 0.7
+            }
+        }
+    },
     pickers = {
         find_files = {
-            find_command = { "fd", "-I"}
+            find_command = { "fd", "-I" },
         }
     }
 })

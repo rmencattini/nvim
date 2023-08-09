@@ -8,11 +8,15 @@ lsp.on_attach(function(_, bufnr)
 end)
 
 lsp.ensure_installed({
-    'rust_analyzer',
-    'lua_ls',
-    'jdtls',
-    'gradle_ls',
-    'volar',
+    'rust_analyzer', -- Wanna learn it
+    'lua_ls', -- To configure neovim
+    'jdtls', -- Java coding
+    'gradle_ls', -- Java coding
+    'volar', -- Vuejs coding
+    'html', -- Handlebars coding
+    'tailwindcss', -- Handlebars coding
+    'astro', -- Github page dev
+    'ltex', -- Spelling correction
 })
 
 -- Set the completion shortcut + go back
@@ -77,6 +81,15 @@ require('lspconfig').gradle_ls.setup({})
 require('lspconfig').volar.setup({
     filetypes = {"vue", "typescript"}
 })
+require('lspconfig').html.setup({})
+require('lspconfig').tailwindcss.setup({})
+require('lspconfig').astro.setup({
+    filetypes = {"astro"}
+})
+require('lspconfig').ltex.setup({
+  flags = { debounce_text_changes = 100 },
+})
+
 require('lsp-zero').skip_server_setup({'jdtls'})
 
 lsp.setup()
