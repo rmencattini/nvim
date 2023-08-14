@@ -27,9 +27,9 @@ local bundles = {}
 local mason_path = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/")
 vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
 vim.list_extend(
-bundles,
-vim.split(vim.fn.glob(mason_path ..
-"packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
+    bundles,
+    vim.split(vim.fn.glob(mason_path ..
+        "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"), "\n")
 )
 -- print(vim.inspect(bundles))
 
@@ -91,70 +91,70 @@ local config = {
             configuration = {
                 updateBuildConfiguration = "interactive",
                 -- runtimes = {
-                    --   {
-                        --     name = "JavaSE-11",
-                        --     path = "/usr/lib/jvm/java-11-openjdk/",
-                        --     default = true
-                        --   },
-                        --   -- {
-                            --   --   name = "JavaSE-17",
-                            --   --   path = "/usr/lib/jvm/java-17-openjdk/",
-                            --   -- },
-                            -- },
-                        },
+                --   {
+                --     name = "JavaSE-11",
+                --     path = "/usr/lib/jvm/java-11-openjdk/",
+                --     default = true
+                --   },
+                --   -- {
+                --   --   name = "JavaSE-17",
+                --   --   path = "/usr/lib/jvm/java-17-openjdk/",
+                --   -- },
+                -- },
+            },
 
-                        eclipse = {
-                            downloadSources = true,
-                        },
-                        maven = {
-                            downloadSources = true,
-                        },
-                        implementationsCodeLens = {
-                            enabled = true,
-                        },
-                        referencesCodeLens = {
-                            enabled = true,
-                        },
-                        references = {
-                            includeDecompiledSources = true,
-                        },
-                        inlayHints = {
-                            parameterNames = {
-                                enabled = "all", -- literals, all, none
-                            },
-                        },
-                        completion = {
-                            favoriteStaticMembers = {
-                                "org.hamcrest.MatcherAssert.assertThat",
-                                "org.hamcrest.Matchers.*",
-                                "org.hamcrest.CoreMatchers.*",
-                                "org.junit.jupiter.api.Assertions.*",
-                                "java.util.Objects.requireNonNull",
-                                "java.util.Objects.requireNonNullElse",
-                                "org.mockito.Mockito.*",
-                            },
-                        },
-                        sources = {
-                            organizeImports = {
-                                starThreshold = 9999,
-                                staticStarThreshold = 9999,
-                            },
-                        },
-                        codeGeneration = {
-                            toString = {
-                                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-                            },
-                            useBlocks = true,
-                        },
-                    },
+            eclipse = {
+                downloadSources = true,
+            },
+            maven = {
+                downloadSources = true,
+            },
+            implementationsCodeLens = {
+                enabled = true,
+            },
+            referencesCodeLens = {
+                enabled = true,
+            },
+            references = {
+                includeDecompiledSources = true,
+            },
+            inlayHints = {
+                parameterNames = {
+                    enabled = "all",             -- literals, all, none
                 },
-            }
+            },
+            completion = {
+                favoriteStaticMembers = {
+                    "org.hamcrest.MatcherAssert.assertThat",
+                    "org.hamcrest.Matchers.*",
+                    "org.hamcrest.CoreMatchers.*",
+                    "org.junit.jupiter.api.Assertions.*",
+                    "java.util.Objects.requireNonNull",
+                    "java.util.Objects.requireNonNullElse",
+                    "org.mockito.Mockito.*",
+                },
+            },
+            sources = {
+                organizeImports = {
+                    starThreshold = 9999,
+                    staticStarThreshold = 9999,
+                },
+            },
+            codeGeneration = {
+                toString = {
+                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                },
+                useBlocks = true,
+            },
+        },
+    },
+}
 
 local function jdtls_setup(_)
     require('jdtls').start_or_attach(config)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = {'java'},
+    pattern = { 'java', 'groovy'},
     callback = jdtls_setup,
 })

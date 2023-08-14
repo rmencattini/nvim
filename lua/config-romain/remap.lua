@@ -24,6 +24,7 @@ vim.keymap.set("n", "<Tab>", ">>")
 vim.keymap.set("n", "<S-Tab>", "<<")
 
 
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]])
 
 vim.keymap.set("n", "mc", "ma%zf'a")
