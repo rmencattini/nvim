@@ -28,3 +28,4 @@ vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]])
 
 vim.keymap.set("n", "mc", "ma%zf'a")
+vim.keymap.set("n", "mz", "zf'a")
