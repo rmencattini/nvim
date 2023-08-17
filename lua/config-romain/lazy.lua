@@ -30,16 +30,13 @@ require("lazy").setup({
     -- Easy comment
     {
         'numToStr/Comment.nvim',
-        lazy = false,
     },
     {
         "mfussenegger/nvim-jdtls",
-        lazy = true,
     },
     -- Sets of plugin for lsp
     {
         'VonHeikemen/lsp-zero.nvim',
-        lazy = true,
         branch = 'v2.x',
         dependencies = {
             -- LSP Support
