@@ -1,44 +1,109 @@
-local lsp = require('lsp-zero').preset({})
 local util = require('lspconfig/util')
+local luasnip = require("luasnip")
+local cmp = require('cmp')
 
-lsp.on_attach(function(_, bufnr)
-    -- see :help lsp-zero-keybindings
-    -- to learn the available actions
-    lsp.default_keymaps({ buffer = bufnr })
-end)
-
-lsp.ensure_installed({
-    'rust_analyzer', -- Wanna learn it
-    'lua_ls',        -- To configure neovim
-    'jdtls',         -- Java coding
-    'volar',         -- Vuejs coding
-    'html',          -- Handlebars coding
-    'tailwindcss',   -- Handlebars coding
-    'astro',         -- Github page dev
-    'ltex',          -- Spelling correction
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        'lua_ls',        -- To configure neovim
+        'jdtls',         -- Java coding
+        'volar',         -- Vuejs coding
+        'html',          -- Handlebars coding
+        'tailwindcss',   -- Handlebars coding
+        'astro',         -- Github page dev
+        'ltex',          -- Spelling correction
+        'rust_analyzer', -- Wanna learn it
+        'zls',           -- Wanna learn it
+        -- 'efm',
+    },
+    automatic_installation = true
 })
 
--- Set the completion shortcut + go back
-lsp.on_attach(function(_, bufnr)
-    local opts = { buffer = bufnr, remap = false }
+local on_attach = (function(_, bufnr)
+    -- Set the completion shortcut + go back
+    local opts = { buffer = bufnr }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+    vim.keymap.set("n", "<leader>of", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "gn", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "gp", function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+    vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
+    vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, opts)
     vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
--- You need to setup `cmp` after lsp-zero
-local cmp = require('cmp')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- Efm
+-- require("lspconfig").efm.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     init_options = { documentFormatting = true },
+--     settings = {
+--         rootMarkers = { ".git/" },
+--         languages = {
+--             lua = {
+--                 { formatCommand = "lua-format -i", formatStdin = true }
+--             }
+--         }
+--     }
+-- }
+-- Lua
+require('lspconfig').lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
+-- Vuejs
+require('lspconfig').volar.setup({
+    filetypes = { "vue", "typescript" },
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+-- Html
+require('lspconfig').html.setup({ on_attach = on_attach, capabilities = capabilities })
+-- Tailwind
+require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
+-- Astro
+require('lspconfig').astro.setup({
+    filetypes = { "astro" },
+    root_dir = util.root_pattern("astro.config.mjs"),
+    capabilities = capabilities,
+    on_attach = on_attach
+})
+-- Text spelling / ltex
+require('lspconfig').ltex.setup({
+    flags = { debounce_text_changes = 60 },
+    capabilities = capabilities,
+    on_attach = on_attach
+})
+-- Zig
+require('lspconfig').zls.setup({ on_attach = on_attach, capabilities = capabilities })
+-- Rust
+require('lspconfig').rust_analyzer.setup({
+    filetypes = { "rust" },
+    capabilities = capabilities,
+    on_attach = on_attach,
+    root_dir = util.root_pattern("Cargo.toml"),
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = {
+                allFeatures = true
+            }
+        }
+    }
+})
+
+require('luasnip.loaders.from_vscode').lazy_load()
+luasnip.config.setup({})
 
 cmp.setup({
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
     mapping = {
         -- `Enter` key to confirm completion
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
@@ -61,36 +126,10 @@ cmp.setup({
                 fallback()
             end
         end),
-    }
+    },
+    sources = cmp.config.sources({
+        { name = "nvim_lsp",               keyword_length = 1 },
+        { name = "nvim_lsp_signature_help" },
+        { name = "luasnip" }
+    })
 })
-
--- (Optional) Configure lua language server for neovim
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-require('lspconfig').rust_analyzer.setup({
-    filetypes = { "rust" },
-    root_dir = util.root_pattern("Cargo.toml"),
-    settings = {
-        ['rust-analyzer'] = {
-            cargo = {
-                allFeatures = true
-            }
-        }
-    }
-})
-
-require('lspconfig').volar.setup({
-    filetypes = { "vue", "typescript" }
-})
-require('lspconfig').html.setup({})
-require('lspconfig').tailwindcss.setup({})
-require('lspconfig').astro.setup({
-    filetypes = { "astro" },
-    root_dir = util.root_pattern("astro.config.mjs")
-})
-require('lspconfig').ltex.setup({
-    flags = { debounce_text_changes = 60 },
-})
-
-require('lsp-zero').skip_server_setup({ 'jdtls' })
-
-lsp.setup()
