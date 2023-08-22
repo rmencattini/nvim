@@ -90,6 +90,9 @@ require('lspconfig').rust_analyzer.setup({
         ['rust-analyzer'] = {
             cargo = {
                 allFeatures = true
+            },
+            check = {
+                command = "clippy"
             }
         }
     }
