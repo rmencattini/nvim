@@ -5,16 +5,15 @@ local cmp = require('cmp')
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
-        'lua_ls',        -- To configure neovim
-        'jdtls',         -- Java coding
-        'volar',         -- Vuejs coding
-        'html',          -- Handlebars coding
-        'tailwindcss',   -- Handlebars coding
-        'astro',         -- Github page dev
-        'ltex',          -- Spelling correction
-        'rust_analyzer', -- Wanna learn it
-        'zls',           -- Wanna learn it
-        -- 'efm',
+        'lua_ls',      -- To configure neovim
+        'jdtls',       -- Java coding
+        'volar',       -- Vuejs coding
+        'html',        -- Handlebars coding
+        'tailwindcss', -- Handlebars coding
+        'astro',       -- Github page dev
+        'ltex',        -- Spelling correction
+        'zls',
+        'gopls',
     },
     automatic_installation = true
 })
@@ -80,23 +79,8 @@ require('lspconfig').ltex.setup({
 })
 -- Zig
 require('lspconfig').zls.setup({ on_attach = on_attach, capabilities = capabilities })
--- Rust
-require('lspconfig').rust_analyzer.setup({
-    filetypes = { "rust" },
-    capabilities = capabilities,
-    on_attach = on_attach,
-    root_dir = util.root_pattern("Cargo.toml"),
-    settings = {
-        ['rust-analyzer'] = {
-            cargo = {
-                allFeatures = true
-            },
-            check = {
-                command = "clippy"
-            }
-        }
-    }
-})
+-- Go
+require('lspconfig').gopls.setup({ on_attach = on_attach, capabilities = capabilities })
 
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup({})
