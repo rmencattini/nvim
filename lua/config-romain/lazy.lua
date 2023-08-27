@@ -29,9 +29,6 @@ require("lazy").setup({
             -- Useful status updates for LSP
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
             { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-
-            -- Additional lua configuration, makes nvim stuff amazing!
-            { "folke/neodev.nvim", opts = {} },
         }
     },
 
@@ -42,6 +39,7 @@ require("lazy").setup({
             -- Snippet Engine & its associated nvim-cmp source
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
+            'hrsh7th/cmp-buffer',
 
             -- Adds LSP completion capabilities
             'hrsh7th/cmp-nvim-lsp',
@@ -53,17 +51,28 @@ require("lazy").setup({
     },
 
 
-    'nvim-telescope/telescope.nvim',       -- Fuzzy finder
-    'nvim-lua/plenary.nvim',               -- Utility function
-    'nvim-tree/nvim-web-devicons',         -- Some required icons
-    'nvim-lualine/lualine.nvim',           -- Status bar
-    'nvim-tree/nvim-tree.lua',             -- Tree file
-    'theprimeagen/harpoon',                -- Small file manager/switcher
-    'numToStr/Comment.nvim',               -- Easy comment
-    "mfussenegger/nvim-jdtls",             -- Helper for java lsp
+    'nvim-telescope/telescope.nvim', -- Fuzzy finder
+    'nvim-lua/plenary.nvim',         -- Utility function
+    'nvim-tree/nvim-web-devicons',   -- Some required icons
+    'nvim-lualine/lualine.nvim',     -- Status bar
+    'nvim-tree/nvim-tree.lua',       -- Tree file
+    'theprimeagen/harpoon',          -- Small file manager/switcher
+    'numToStr/Comment.nvim',         -- Easy comment
+    {
+        "mfussenegger/nvim-jdtls",
+        ft = { "java", "groovy" }
+    },                                     -- Helper for java lsp
     'zbirenbaum/copilot.lua',              -- Copilot
     'akinsho/bufferline.nvim',             -- Display buffer as tab
     "lukas-reineke/indent-blankline.nvim", -- Display indent
     'echasnovski/mini.surround',           -- Easy surround
     'echasnovski/mini.pairs',              -- Easy pairs
+    {
+        "olexsmir/gopher.nvim",
+        ft = { "go" },
+        build = function()
+            vim.cmd [[silent! GoInstallDeps]]
+        end
+    },
+
 })

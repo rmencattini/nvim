@@ -12,10 +12,8 @@ require("mason-lspconfig").setup({
         'tailwindcss', -- Handlebars coding
         'astro',       -- Github page dev
         'ltex',        -- Spelling correction
-        'zls',
         'gopls',
     },
-    automatic_installation = true
 })
 
 local on_attach = (function(_, bufnr)
@@ -24,7 +22,6 @@ local on_attach = (function(_, bufnr)
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set("n", "<leader>of", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "gn", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "gp", function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
@@ -32,26 +29,11 @@ local on_attach = (function(_, bufnr)
     vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, opts)
     vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Efm
--- require("lspconfig").efm.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     init_options = { documentFormatting = true },
---     settings = {
---         rootMarkers = { ".git/" },
---         languages = {
---             lua = {
---                 { formatCommand = "lua-format -i", formatStdin = true }
---             }
---         }
---     }
--- }
 -- Lua
 require('lspconfig').lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
 -- Vuejs
@@ -77,12 +59,28 @@ require('lspconfig').ltex.setup({
     capabilities = capabilities,
     on_attach = on_attach
 })
--- Zig
-require('lspconfig').zls.setup({ on_attach = on_attach, capabilities = capabilities })
 -- Go
-require('lspconfig').gopls.setup({ on_attach = on_attach, capabilities = capabilities })
+require('lspconfig').gopls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+                unusedparams = true
+            }
+        }
+    }
+})
+-- Rust
+require("lspconfig").rust_analyzer.setup({})
 
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load({
+    paths = {
+        "~/.local/share/nvim/lazy/friendly-snippets/"
+    }
+})
 luasnip.config.setup({})
 
 cmp.setup({
@@ -117,6 +115,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = "nvim_lsp",               keyword_length = 1 },
         { name = "nvim_lsp_signature_help" },
+        { name = "buffer" },
         { name = "luasnip" }
     })
 })
