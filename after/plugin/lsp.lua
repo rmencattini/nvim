@@ -12,7 +12,7 @@ require("mason-lspconfig").setup({
         'tailwindcss', -- Handlebars coding
         'astro',       -- Github page dev
         'ltex',        -- Spelling correction
-        'gopls',
+        'gopls',       -- Go coding
     },
 })
 
@@ -74,7 +74,18 @@ require('lspconfig').gopls.setup({
     }
 })
 -- Rust
-require("lspconfig").rust_analyzer.setup({})
+require("lspconfig").rust_analyzer.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        ['rust-analyzer'] = {
+            check = {
+                command = "clippy",
+                extraArgs = { "--", "-Dclippy::pedantic" }
+            }
+        }
+    }
+})
 
 require('luasnip.loaders.from_vscode').lazy_load({
     paths = {
