@@ -63,7 +63,7 @@ lsp-zero kudos => https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/
                     -- 💀
                     "-jar",
                     vim.fn.glob(home ..
-                    "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
+                        "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
                     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
                     -- Must point to the                                                     Change this to
                     -- eclipse.jdt.ls installation                                           the actual version
@@ -156,6 +156,21 @@ lsp-zero kudos => https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/
                     },
                 },
             }
+
+            config.on_attach = function(_, bufnr)
+                -- Set the completion shortcut + go back
+                local opts = { buffer = bufnr }
+
+                vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+                vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+                vim.keymap.set("n", "gn", function() vim.diagnostic.goto_next() end, opts)
+                vim.keymap.set("n", "gp", function() vim.diagnostic.goto_prev() end, opts)
+                vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+                vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
+                vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+                vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, opts)
+                vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
+            end
 
             local function jdtls_setup(_)
                 require('jdtls').start_or_attach(config)
