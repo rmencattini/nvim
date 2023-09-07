@@ -8,7 +8,7 @@ return {
                 pcall(vim.api.nvim_command, 'MasonUpdate')
             end,
         },
-        'williamboman/mason-lspconfig.nvim',     -- Lspconfig with mason
+        'williamboman/mason-lspconfig.nvim', -- Lspconfig with mason
 
         -- Useful status updates for LSP
         -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -31,11 +31,9 @@ return {
         })
 
         local on_attach = (function(_, bufnr)
-            -- Set the completion shortcut + go back
             local opts = { buffer = bufnr }
 
             vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-            vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
             vim.keymap.set("n", "gn", function() vim.diagnostic.goto_next() end, opts)
             vim.keymap.set("n", "gp", function() vim.diagnostic.goto_prev() end, opts)
             vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
