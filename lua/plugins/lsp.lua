@@ -15,7 +15,6 @@ return {
         { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
     },
     config = function()
-        local util = require('lspconfig/util')
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -24,8 +23,8 @@ return {
                 'volar',       -- Vuejs coding
                 'html',        -- Handlebars coding
                 'tailwindcss', -- Handlebars coding
-                'astro',       -- Github page dev
                 'ltex',        -- Spelling correction
+                'zls',         -- Zig coding
                 'gopls',       -- Go coding
             },
         })
@@ -43,33 +42,32 @@ return {
             vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
         end)
 
+        local signs = { Error = "", Warn= "", Hint = "💡", Info= " " }
+
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        end
+
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
         -- Lua
         require('lspconfig').lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
+        -- Html
+        require('lspconfig').html.setup({ on_attach = on_attach, capabilities = capabilities })
+        -- Tailwind
+        require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
+        -- Zig
+        require('lspconfig').zls.setup({ on_attach = on_attach, capabilities = capabilities })
+        -- Text spelling / ltex
+        require('lspconfig').ltex.setup({ capabilities = capabilities, on_attach = on_attach })
+
         -- Vuejs
         require('lspconfig').volar.setup({
             filetypes = { "vue", "typescript" },
             on_attach = on_attach,
             capabilities = capabilities,
-        })
-        -- Html
-        require('lspconfig').html.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Tailwind
-        require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Astro
-        require('lspconfig').astro.setup({
-            filetypes = { "astro" },
-            root_dir = util.root_pattern("astro.config.mjs"),
-            capabilities = capabilities,
-            on_attach = on_attach
-        })
-        -- Text spelling / ltex
-        require('lspconfig').ltex.setup({
-            flags = { debounce_text_changes = 60 },
-            capabilities = capabilities,
-            on_attach = on_attach
         })
         -- Go
         require('lspconfig').gopls.setup({
