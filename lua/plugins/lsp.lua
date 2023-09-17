@@ -24,7 +24,6 @@ return {
                 'html',        -- Handlebars coding
                 'tailwindcss', -- Handlebars coding
                 'ltex',        -- Spelling correction
-                'zls',         -- Zig coding
                 'gopls',       -- Go coding
             },
         })
@@ -58,8 +57,6 @@ return {
         require('lspconfig').html.setup({ on_attach = on_attach, capabilities = capabilities })
         -- Tailwind
         require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Zig
-        require('lspconfig').zls.setup({ on_attach = on_attach, capabilities = capabilities })
         -- Text spelling / ltex
         require('lspconfig').ltex.setup({ capabilities = capabilities, on_attach = on_attach })
 
