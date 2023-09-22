@@ -1,0 +1,47 @@
+""" Map leader to space ---------------------
+let mapleader=" "
+
+""" Plugins  --------------------------------
+set surround
+set commentary
+
+""" Common settings -------------------------
+set showmode
+set incsearch
+set nu
+set relativenumber
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+
+""" Mappings --------------------------------
+map <C-d> <C-d>zz
+map <C-u> <C-u>zz
+
+vnoremap :m '>+1gv=gv
+vnoremap :m '<-2gv=gv
+
+map n nzzzv
+map N Nzzzv
+
+map <leader>y "+y
+map <leader>p "+p
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+
+map gn <Action>(GotoNextError)
+map gp <Action>(GotoPreviousError)
+
+map gd <Action>(GotoDeclaration)
+map gi <Action>(GotoImplementation)
+
+map <leader>rn <Action>(RenameElement)
+
+map <C-h> <Action>(Back)
+map <C-l> <Action>(Forward)
+
+map <leader>rr <Action>(FindUsages)
+
+""" reload gradle <leader>rg
+""" build project <leader>bp

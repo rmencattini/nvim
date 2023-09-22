@@ -24,7 +24,7 @@ return {
                 'html',        -- Handlebars coding
                 'tailwindcss', -- Handlebars coding
                 'ltex',        -- Spelling correction
-                'gopls',       -- Go coding
+                'efm',
             },
         })
 
@@ -37,11 +37,11 @@ return {
             vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
             vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
             vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
-            vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format() end, opts)
+            vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, opts)
             vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
         end)
 
-        local signs = { Error = "", Warn= "", Hint = "💡", Info= " " }
+        local signs = { Error = "", Warn = "", Hint = "💡", Info = " " }
 
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
@@ -59,26 +59,13 @@ return {
         require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
         -- Text spelling / ltex
         require('lspconfig').ltex.setup({ capabilities = capabilities, on_attach = on_attach })
-
         -- Vuejs
         require('lspconfig').volar.setup({
+            init_options = { documentFormatting = false },
             filetypes = { "vue", "typescript" },
+            root_dir = require('lspconfig').util.root_pattern('package.json'),
             on_attach = on_attach,
             capabilities = capabilities,
-        })
-        -- Go
-        require('lspconfig').gopls.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                gopls = {
-                    completeUnimported = true,
-                    usePlaceholders = true,
-                    analyses = {
-                        unusedparams = true
-                    }
-                }
-            }
         })
         -- Rust
         require("lspconfig").rust_analyzer.setup({
@@ -92,6 +79,25 @@ return {
                     }
                 }
             }
+        })
+        -- Efm
+        local eslint = {
+            lintCommand =
+            "eslint -f unix --stdin -c config/lints/.eslintrc.yml --stdin-filename ${INPUT}",
+            lintStdin = true,
+            lintFormats = { "%f:%l:%c: %m" },
+            lintIgnoreExitCode = true,
+        }
+        require('lspconfig').efm.setup({
+            init_options = { documentFormatting = true, documentRangeFormatting = true },
+            root_dir = require('lspconfig').util.root_pattern({ 'package.json' }),
+            settings = {
+                languages = {
+                    vue = { eslint },
+                    typescript = { eslint },
+                }
+            },
+            filetypes = { "vue", "typescript", }
         })
     end
 }
