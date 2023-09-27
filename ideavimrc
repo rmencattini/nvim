@@ -19,8 +19,6 @@ set ideastatusicon=gray
 map <C-d> <C-d>zz
 map <C-u> <C-u>zz
 
-vnoremap :m '>+1gv=gv
-vnoremap :m '<-2gv=gv
 
 map n nzzzv
 map N Nzzzv

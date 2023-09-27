@@ -36,9 +36,8 @@ vim.keymap.set("n", "<leader>b", ":bp <CR>")
 vim.keymap.set("n", "<Tab>", ">>")
 vim.keymap.set("n", "<S-Tab>", "<<")
 
-
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set({ "n", "v" }, "<leader>pp", [["+p]])
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
+vim.keymap.set({ "n", "v" }, "<leader>pp", '"+p')
 
 vim.keymap.set("n", "mc", "ma%zf'a")
 vim.keymap.set("n", "mz", "zf'a")
@@ -46,32 +45,19 @@ vim.keymap.set("n", "mz", "zf'a")
 -- Set
 vim.opt.nu = true
 vim.opt.relativenumber = true
-
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
-
 vim.opt.smartindent = true
-
 vim.opt.wrap = false
-
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
-
 vim.opt.incsearch = true
-
 vim.opt.termguicolors = true
-
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
-
 vim.opt.updatetime = 50
-
-vim.api.nvim_create_autocmd(
-    {"BufRead", "BufNewFile"},
-    {pattern = "*.handlebars", command = "set filetype=html"}
-)

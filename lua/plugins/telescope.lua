@@ -17,9 +17,6 @@ return {
         }
     },
     keys = {
-        -- <C-x> open in split
-        -- <C-v> open in vsplit
-        -- <C-t> open in new tab
         { '<leader>fa', "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
         { '<leader>ff', "<cmd>Telescope git_files<cr>",  desc = "Telescope git files" },
         { '<leader>fg', "<cmd>Telescope live_grep<cr>",  desc = "Telescope live grep" }
