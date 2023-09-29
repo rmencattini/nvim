@@ -61,10 +61,13 @@ return {
         require('lspconfig').ltex.setup({ capabilities = capabilities, on_attach = on_attach })
         -- Vuejs
         require('lspconfig').volar.setup({
-            init_options = { documentFormatting = false },
             filetypes = { "vue", "typescript" },
             root_dir = require('lspconfig').util.root_pattern('package.json'),
-            on_attach = on_attach,
+            on_attach = function(client, bufnr)
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+                on_attach(client, bufnr)
+            end,
             capabilities = capabilities,
         })
         -- Rust
@@ -87,6 +90,8 @@ return {
             lintStdin = true,
             lintFormats = { "%f:%l:%c: %m" },
             lintIgnoreExitCode = true,
+            formatCommand = "eslint_d -c config/lints/.eslintrc.yml --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+            formatStdin = true,
         }
         require('lspconfig').efm.setup({
             init_options = { documentFormatting = true, documentRangeFormatting = true },

@@ -19,7 +19,6 @@ set ideastatusicon=gray
 map <C-d> <C-d>zz
 map <C-u> <C-u>zz
 
-
 map n nzzzv
 map N Nzzzv
 
@@ -41,5 +40,5 @@ map <C-l> <Action>(Forward)
 
 map <leader>rr <Action>(FindUsages)
 
-""" reload gradle <leader>rg
-""" build project <leader>bp
+map <leader>bp <Action>(CompileDirty)
+map <leader>rg <Action>(ExternalSystem.RefreshAllProjects)
