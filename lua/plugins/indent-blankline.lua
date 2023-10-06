@@ -3,5 +3,6 @@ return {
     config = {
         show_current_context = true,
         char = '┊',
-    }
+    },
+    event = { "BufReadPre", "BufNewFile" },
 }
