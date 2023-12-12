@@ -30,6 +30,9 @@ return {
         luasnip.config.setup({})
 
         cmp.setup({
+            completion = {
+                completeopt = 'menu,menuone,select',
+            },
             formatting = {
                 format = lspkind.cmp_format(),
             },

@@ -39,6 +39,9 @@ vim.keymap.set({ "n", "v" }, "<leader>pp", '"+p')
 vim.keymap.set("n", "mc", "ma%zf'a")
 vim.keymap.set("n", "mz", "zf'a")
 
+vim.keymap.set("n", "<C-h>", "<C-o>")
+vim.keymap.set("n", "<C-l>", "<C-i>")
+
 -- Set
 vim.opt.nu = true
 vim.opt.relativenumber = true

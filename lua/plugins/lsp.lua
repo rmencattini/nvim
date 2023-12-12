@@ -18,12 +18,8 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
-                'lua_ls',      -- To configure neovim
-                'jdtls',       -- Java coding
-                'volar',       -- Vuejs coding
-                'html',        -- Handlebars coding
-                'tailwindcss', -- Handlebars coding
-                'ltex',        -- Spelling correction
+                'lua_ls', -- To configure neovim
+                'volar',  -- Vuejs coding
                 'efm',
             },
         })
@@ -37,10 +33,9 @@ return {
             vim.keymap.set("n", "gp", function() vim.diagnostic.goto_prev() end, opts)
             vim.keymap.set('n', '<space>k', function() vim.diagnostic.open_float() end, opts)
             vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
-            vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
+            vim.keymap.set("n", "<leader>fu", function() vim.lsp.buf.references() end, opts)
             vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
             vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ timeout_ms = 2000 }) end, opts)
-            vim.keymap.set("n", "<leader>coi", function() require('jdtls').organize_imports() end, opts)
         end)
 
         local signs = { Error = "", Warn = "", Hint = "💡", Info = " " }
@@ -55,12 +50,6 @@ return {
 
         -- Lua
         require('lspconfig').lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Html
-        require('lspconfig').html.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Tailwind
-        require('lspconfig').tailwindcss.setup({ on_attach = on_attach, capabilities = capabilities })
-        -- Text spelling / ltex
-        require('lspconfig').ltex.setup({ capabilities = capabilities, on_attach = on_attach })
         -- Vuejs
         require('lspconfig').volar.setup({
             filetypes = { "vue", "typescript" },
@@ -71,19 +60,6 @@ return {
                 on_attach(client, bufnr)
             end,
             capabilities = capabilities,
-        })
-        -- Rust
-        require("lspconfig").rust_analyzer.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                ['rust-analyzer'] = {
-                    check = {
-                        command = "clippy",
-                        extraArgs = { "--", "-Dclippy::pedantic" }
-                    }
-                }
-            }
         })
         -- Efm
         local eslint = {

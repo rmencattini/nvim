@@ -10,14 +10,17 @@ set showmode
 set incsearch
 set nu
 set relativenumber
+set hls
 
 """ Idea specific settings ------------------
-set ideajoin
-set ideastatusicon=gray
+""" set ideajoin
+set ideastatusicon=red
 
 """ Mappings --------------------------------
 map <C-d> <C-d>zz
 map <C-u> <C-u>zz
+
+map <ESC> <ESC>:nohls<CR>
 
 map n nzzzv
 map N Nzzzv
@@ -38,7 +41,9 @@ map <leader>rn <Action>(RenameElement)
 map <C-h> <Action>(Back)
 map <C-l> <Action>(Forward)
 
-map <leader>rr <Action>(FindUsages)
+map <leader>fu <Action>(FindUsages)
 
 map <leader>bp <Action>(CompileDirty)
 map <leader>rg <Action>(ExternalSystem.RefreshAllProjects)
+
+map <leader>cp <Action>(ChangeLaf)
