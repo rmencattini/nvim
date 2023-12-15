@@ -1,5 +1,6 @@
 return {
-    'theprimeagen/harpoon', -- Small file manager/switcher
+    'ThePrimeagen/harpoon', -- Small file manager/switcher
+    branch = "harpoon2",
     dependencies = {
         'nvim-lua/plenary.nvim'
     },
@@ -8,7 +9,10 @@ return {
         { "<leader>o", desc = "Harpoon open menu" },
     },
     config = function()
-        vim.keymap.set("n", "<leader>a", require("harpoon.mark").add_file)
-        vim.keymap.set("n", "<leader>o", require("harpoon.ui").toggle_quick_menu)
+        local harpoon = require("harpoon")
+        harpoon:setup()
+
+        vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+        vim.keymap.set("n", "<leader>o", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
     end
 }

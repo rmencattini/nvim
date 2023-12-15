@@ -20,6 +20,7 @@ return {
             ensure_installed = {
                 'lua_ls', -- To configure neovim
                 'volar',  -- Vuejs coding
+                'gopls',
                 'efm',
             },
         })
@@ -50,6 +51,8 @@ return {
 
         -- Lua
         require('lspconfig').lua_ls.setup({ on_attach = on_attach, capabilities = capabilities })
+        -- Go
+        require('lspconfig').gopls.setup({ on_attach = on_attach, capabilities = capabilities })
         -- Vuejs
         require('lspconfig').volar.setup({
             filetypes = { "vue", "typescript" },
